@@ -1,0 +1,10 @@
+version: v1.0.0
+steps:
+  - build: >
+      -f ./Dockerfile
+      -t {{.Run.Registry}}/staging-artifacts/node:{{.Run.ID}}
+      -t {{.Run.Registry}}/staging-artifacts/node:9-alpine
+      .
+  - push: 
+    - "{{.Run.Registry}}/staging-artifacts/node:{{.Run.ID}}"
+    - "{{.Run.Registry}}/staging-artifacts/node:9-alpine"
