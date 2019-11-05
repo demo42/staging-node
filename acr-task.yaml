@@ -1,8 +1,8 @@
 version: v1.0.0
 steps:
-  - cmd: "orca run {{.Run.Registry}}/base-artifacts/azure-cli:2.0.75 ls"
+  - cmd: "{{.Run.Registry}}/base-artifacts/azure-cli:2.0.75 ./import.sh"
     env:
       - ACR_NAME={{.Run.RegistryName}}
-      - TENANT={{.Values.TENANT}}
       - SP={{.Values.SP}}
       - PASSWORD={{.Values.PASSWORD}}
+      - TENANT={{.Values.TENANT}}
