@@ -8,10 +8,9 @@ az login \
     --service-principal \
     --username $SP \
     --password $PASSWORD \
-    --tenant $TENANT  > /dev/null
+    --tenant $TENANT  #> /dev/null
 
 echo -- az acr import --
 az acr import \
     --source mcr.microsoft.com/azure-cli:2.0.75 \
     -t base-artifacts/azure-cli:2.0.75
-
