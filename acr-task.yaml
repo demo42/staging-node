@@ -1,6 +1,6 @@
 version: v1.0.0
 steps:
-  - cmd: "{{.Run.Registry}}/base-artifacts/azure-cli:2.0.75 ls"
+  - cmd: "{{.Run.Registry}}/base-artifacts/azure-cli:2.0.75 ./import.sh"
     env:
       - ACR_NAME={{.Run.RegistryName}}
       - SP={{.Values.SP}}
