@@ -7,11 +7,20 @@ steps:
   - id: az-login
     cmd: >
       $Registry/base-artifacts/azure-cli:2.0.75 az login --identity > /dev/null
-  - id: import-node
+  - id: import-node-staging
     cmd: >
       $Registry/base-artifacts/azure-cli:2.0.75 az acr import 
       --name {{.Run.RegistryName}} 
       --source demo42upstream.azurecr.io/library/node:9-alpine 
       -t staging/node:9-alpine 
+      -t staging/node:9-alpine-$ID
+      --force
+  - id: import-node-base-images
+    cmd: >
+      $Registry/base-artifacts/azure-cli:2.0.75 az acr import 
+      --name {{.Run.RegistryName}} 
+      --source demo42upstream.azurecr.io/library/node:9-alpine 
+      -t base-images/node:9-alpine 
+      -t base-images/node:9-alpine-$ID
       --force
   

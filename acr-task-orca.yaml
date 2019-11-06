@@ -1,1 +1,0 @@
-#  - cmd: orca run {{.Run.Registry}}/azure-cli:2.0.75 'az --version'
