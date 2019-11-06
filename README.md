@@ -59,7 +59,7 @@ az acr task create \
                          --vault-name ${AKV_NAME} \
                          --name ${GIT_TOKEN_NAME} \
                          --query value -o tsv) \
-  --set-secret TENANT=$(az keyvault secret show \
+  --set-secret TENANT=$(az keyvault secret show 
                          --vault-name ${AKV_NAME} \
                          --name ${DEMO_NAME}-tenant \
                          --query value -o tsv) \
@@ -79,6 +79,11 @@ az acr import -n demo42t --source mcr.microsoft.com/azure-cli:2.0.75 -t base-art
 docker run mcr.microsoft.com/azure-cli:2.0.75 az acr import -n demo42t --source demo42t.azurecr.io/upstream/node:9-alpine -t staging/node:9-alpine
 az acr run --cmd "orca run base-artifacts/azure-cli:2.0.75 acr import" /dev/null
 docker run mcr.microsoft.com/azure-cli:2.0.75 import -n demo42t --source library/node:9-alpine -t base-artifacts/node:9-alpine
+
+az acr import --name demo42upstream \
+  --source docker.io/library/node:9-alpine -t library/node:9-alpine --force
+
+docker pull demo42upstream.azurecr.io/library/node:9-alpine
 ```
 
 ## Troubleshooting Snippets
@@ -108,4 +113,25 @@ docker run \
   -v c:/Users/stevelas/Documents/github/demo42/staging-node:/der \
   -w /der \
   mcr.microsoft.com/azure-cli:2.0.75  ./import.sh
+```
+
+```sh
+cat acr-task.yaml | az acr task create -n node-import-to-staging --identity -f - -c /dev/null
+
+cat acr-task.yaml | az acr task create -n node-import-to-staging --assign-identity  -f - -c /dev/null
+
+az role assignment create \
+  --role Contributor \
+  --assignee-object-id $(az acr task show \
+      -n node-import-to-staging \
+      --query identity.principalId \
+      -o tsv) \
+  --assignee-principal-type ServicePrincipal \
+  --scope $(az acr show \
+    -n ${ACR_NAME} \
+    --query id -o tsv)
+
+az acr task run -n node-import-to-staging
+az role assignment create --role Contributor --assignee-object-id cdba81cb-a64b-43c3-a828-f43acc56ff5c --scope $(az acr show -n demo42t --query id -o tsv)
+
 ```

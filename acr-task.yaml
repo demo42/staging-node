@@ -1,8 +1,13 @@
-version: v1.0.0
+version: v1.1.0
 steps:
-  - cmd: "{{.Run.Registry}}/base-artifacts/azure-cli:2.0.75 ./import.sh"
-    env:
-      - ACR_NAME={{.Run.RegistryName}}
-      - SP={{.Values.SP}}
-      - PASSWORD={{.Values.PASSWORD}}
-      - TENANT={{.Values.TENANT}}
+  - id: az-login
+    cmd: >
+      az login --identity > /dev/null
+  - id: import-node
+    cmd: >
+      az acr import 
+      --name {{.Run.RegistryName}} 
+      --source demo42upstream.azurecr.io/library/node:9-alpine 
+      -t staging/node:9-alpine 
+      --force
+  
