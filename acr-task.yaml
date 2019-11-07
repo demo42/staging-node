@@ -8,6 +8,10 @@ steps:
   - id: validate-base-image
     cmd: node-import:test
     # only continues if node-import:test returns a non-zero code
+  - id: az-login
+    cmd: >
+      $Registry/base-artifacts/azure-cli:2.0.75 az login --identity > /dev/null
+    # login with the identity of the task
   - id: import-node-to-base-artifacts
     cmd: >
       $Registry/base-artifacts/azure-cli:2.0.75 az acr import 
