@@ -1,0 +1,29 @@
+version: v1.1.0
+steps:
+  - id: base-image-track
+    build: >
+      -f ./Dockerfile
+      -t node-import:test
+      .
+  - id: validate-base-image
+    cmd: node-import:test ./test.sh
+  - id: az-login
+    cmd: >
+      $Registry/base-artifacts/azure-cli:2.0.75 az login --identity > /dev/null
+  - id: import-node-staging
+    cmd: >
+      $Registry/base-artifacts/azure-cli:2.0.75 az acr import 
+      --name {{.Run.RegistryName}} 
+      --source demo42upstream.azurecr.io/library/node:9-alpine 
+      -t staging/node:9-alpine 
+      -t staging/node:9-alpine-$ID
+      --force
+  - id: import-node-base-images
+    cmd: >
+      $Registry/base-artifacts/azure-cli:2.0.75 az acr import 
+      --name {{.Run.RegistryName}} 
+      --source $Registry/staging/node:9-alpine 
+      -t base-artifacts/node:9-alpine
+      -t base-artifacts/node:9-alpine-$ID
+      --force
+  
