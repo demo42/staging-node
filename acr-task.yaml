@@ -3,10 +3,10 @@ steps:
   - id: build-base-image-test
     build: >
       -f ./Dockerfile
-      -t node-import:test
+      -t $Registry/node-import:test
       .
   - id: validate-base-image
-    cmd: node-import:test
+    cmd: $Registry/node-import:test
     # only continues if node-import:test returns a non-zero code
   - id: az-login
     cmd: >
