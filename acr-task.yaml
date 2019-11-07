@@ -6,5 +6,5 @@ steps:
       -t node-import:test
       .
   - id: validate-base-image
-    cmd: node-import:test ./test.sh
+    cmd: node-import:test
   - cmd: echo 'after test'
