@@ -38,3 +38,10 @@ Staging a base image, by importing it from upstream, validating it, before it be
 
 ## Make an Upstream Change
 
+## Local Testing
+
+```bash
+az acr build -t node-import:test -f acr-task.yaml --no-push .
+docker build -t node-import:test .
+docker run -it --rm node-import:test
+```
