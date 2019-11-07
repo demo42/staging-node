@@ -40,8 +40,20 @@ Staging a base image, by importing it from upstream, validating it, before it be
 
 ## Local Testing
 
-```bash
+```sh
 az acr build -t node-import:test -f acr-task.yaml --no-push .
 docker build -t node-import:test .
 docker run -it --rm node-import:test
+
+az acr import \
+  --source demo42upstream.azurecr.io/library/node:9-alpine \
+  -t base-artifacts/node:9-alpine \
+  -t base-artifacts/node:9-alpine-$ID \
+  --force
+time az acr import \
+  --source demo42upstream.azurecr.io/library/node:9-alpine \
+  -t base-artifacts/node:9-alpine \
+  -t base-artifacts/node:9-alpine-$ID \
+  --force
+time az acr import --source demo42upstream.azurecr.io/library/node:9-alpine -t base-artifacts/node:9-alpine --force
 ```

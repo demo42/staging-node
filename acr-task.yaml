@@ -7,4 +7,13 @@ steps:
       .
   - id: validate-base-image
     cmd: node-import:test
-  - cmd: echo 'after test'
+    # only continues if node-import:test returns a non-zero code
+  - id: import-node-to-base-artifacts
+    cmd: >
+      $Registry/base-artifacts/azure-cli:2.0.75 az acr import 
+      --name {{.Run.RegistryName}} 
+      --source demo42upstream.azurecr.io/library/node:9-alpine 
+      -t base-artifacts/node:9-alpine
+      -t base-artifacts/node:9-alpine-$ID
+      --force
+  
