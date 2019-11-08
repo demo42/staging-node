@@ -12,7 +12,7 @@ Staging a base image, by importing it from upstream, validating it, before it be
     -n node-import-to-staging \
     --assign-identity  \
     -f acr-task.yaml \
-    --context ${GIT_STAGING_NODE} \
+    --context ${GIT_NODE_IMPORT} \
     --git-access-token $(az keyvault secret show \
                           --vault-name ${AKV_NAME} \
                           --name ${GIT_TOKEN_NAME} \

@@ -14,7 +14,7 @@ steps:
     cmd: >
       $Registry/base-artifacts/azure-cli:2.0.75 az acr import 
       --name {{.Run.RegistryName}} 
-      --source demo42upstream.azurecr.io/library/node:9-alpine 
+      --source $Registry.azurecr.io/hub/node:9-alpine 
       -t staging/node:9-alpine 
       -t staging/node:9-alpine-$ID
       --force
